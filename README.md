@@ -41,5 +41,5 @@ The built-in command console accepts the following inputs:
 
 ## 👥 The Grid (Team)
 * **Sagnik Datta** - Lead Architect
-* **Swati Saumya** - UX Specialist
+* **[Swati Saumya](https://github.com/swatisaumya)** - UX Specialist
 * **Shloak Sinha** - Data Systems
