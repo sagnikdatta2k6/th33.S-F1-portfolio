@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TEAM TH33.S | F1 Engineering HUD</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body class="hud-body">
+
+    <div id="team-radio" class="glass">
+        <div class="radio-header">
+            <span>INCOMING_COMMUNICATION</span>
+            <span class="red-glow">LIVE</span>
+        </div>
+        <div class="radio-msg">
+            <span class="radio-caller" id="radio-caller">ENGINEER</span>: 
+            <span id="radio-text">Syncing paddock data...</span>
+        </div>
+    </div>
+
+    <div id="bios-loader">
+        <div class="bios-text" id="bios-log">
+            [  OK  ] INITIALIZING TEAM TH33.S KERNEL...<br>
+            [  OK  ] DETECTING HARDWARE: 3D_CHASSIS_V1.04<br>
+            [  OK  ] AUTHORIZING USER: SAGNIK_DATTA [24BCT0102]...<br>
+            [  OK  ] AUTHORIZING USER: SWATI_SAUMYA [24BCI0253]...<br>
+            [  OK  ] AUTHORIZING USER: SHLOAK_SINHA [24BDS0378]...
+        </div>
+        <div class="bios-footer">PRESS 'F1' TO BYPASS BOOT_SEQUENCE</div>
+    </div>
+
+    <div class="background-3d-container">
+        <model-viewer id="bg-car" src="assets/f1-car.glb" shadow-intensity="1" camera-orbit="0deg 75deg 115%" interaction-prompt="none"></model-viewer>
+    </div>
+
+    <nav class="hud-nav">
+        <div class="logo">TEAM <span class="red-glow">TH33.S</span></div>
+        <div class="nav-buttons">
+            <a href="#hero" class="hud-btn-sm">HOME</a>
+            <a href="#drivers" class="hud-btn-sm">THE GRID</a>
+            <a href="#tech-stack" class="hud-btn-sm">TECH</a>
+            <a href="#telemetry" class="hud-btn-sm">TERMINAL</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero" class="content-panel full-view">
+            <div class="scanline-overlay"></div>
+            <div class="hero-box">
+                <h1 class="f1-title">TEAM TH33.S</h1>
+                <div class="drs-tag">DRS ENABLED</div>
+            </div>
+        </section>
+
+        <section id="drivers" class="content-panel full-view">
+            <h2 class="section-label">THE GRID</h2>
+            <div class="grid-layout">
+                <div class="driver-card glass">
+                    <h3>Sagnik Datta</h3>
+                    <p class="role">Lead Architect</p>
+                </div>
+                <div class="driver-card glass">
+                    <h3>Swati Saumya</h3>
+                    <p class="role">UX Specialist</p>
+                </div>
+                <div class="driver-card glass">
+                    <h3>Shloak Sinha</h3>
+                    <p class="role">Data Systems</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="content-panel full-view">
+            <div class="glass stack-box full-width">
+                <h2 class="section-label">ENGINEERING STACK</h2>
+                <div class="pill-container">
+                    <span class="pill">HTML5</span>
+                    <span class="pill">CSS3 (GLASS)</span>
+                    <span class="pill">JAVASCRIPT (ES6)</span>
+                    <span class="pill">MODEL-VIEWER</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="telemetry" class="content-panel full-view">
+            <div class="glass walkthrough-box wide-frame">
+                <h2 class="section-label">PROJECT TERMINAL | MISSION CONTROL</h2>
+                
+                <div class="terminal-grid-top">
+                    
+                    <div class="terminal-module map-module">
+                        <div class="module-header">GEOSPATIAL_NODE_MAPPING</div>
+                        <div class="map-container glass">
+                            <svg id="india-node-map" viewBox="0 0 200 240">
+                                <path d="M100 20 L130 50 L140 90 L160 120 L140 180 L100 220 L60 180 L40 120 L60 50 Z" 
+                                      fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+                                <g id="map-lines" stroke="rgba(225, 6, 0, 0.2)" stroke-width="0.5" stroke-dasharray="2 2"></g>
+                                <circle class="node-point" id="node-VELLORE" cx="85" cy="180" r="3" fill="#444" />
+                                <circle class="node-point" id="node-PATNA" cx="120" cy="90" r="3" fill="#444" />
+                                <circle class="node-point" id="node-KOLKATA" cx="135" cy="110" r="3" fill="#444" />
+                                <circle class="node-point" id="node-MUMBAI" cx="60" cy="140" r="3" fill="#444" />
+                                <circle id="active-scanner" cx="85" cy="180" r="6" fill="none" stroke="var(--f1-red)" stroke-width="1">
+                                    <animate attributeName="r" from="2" to="10" dur="1.5s" repeatCount="indefinite" />
+                                    <animate attributeName="opacity" from="1" to="0" dur="1.5s" repeatCount="indefinite" />
+                                </circle>
+                            </svg>
+                            <div class="map-coordinates">
+                                <span class="label">FIX_TYPE:</span> <span class="green-glow">RTK_FIXED</span><br>
+                                <span class="label">SAT_COUNT:</span> 12
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-module weather-module" style="position: relative;">
+                        <div id="warning-overlay">
+                            <div class="warning-box">
+                                <div class="warning-title">HEAT_ALERT</div>
+                                <div class="warning-msg">ROAD TEMP > 40°C</div>
+                            </div>
+                        </div>
+                        <div class="module-header">ENVIRONMENT_SENSORS [<span id="location-name">VELLORE</span>]</div>
+                        <div class="weather-content" id="weather-box">
+                            <div class="weather-item"><span class="label">AIR TEMP:</span> <span id="temp-val">--°C</span></div>
+                            <div class="weather-item"><span class="label">ROAD TEMP:</span> <span id="road-temp-val">--°C</span></div>
+                            <div class="weather-item"><span class="label">HUMIDITY:</span> <span id="humid-val">--%</span></div>
+                            <div class="weather-item"><span class="label">TRACK:</span> <span id="track-val">DRY</span></div>
+                            <div class="weather-item core-stream"><span class="label">BIT_RATE:</span> <span id="bit-rate">0 kbps</span></div>
+                            <div class="weather-item core-stream"><span class="label">LATENCY:</span> <span id="latency">0 ms</span></div>
+                            <div class="weather-item gps-item"><span class="label">GPS_COORDS:</span> <span id="gps-val">12.9165° N, 79.1325° E</span></div>
+                            <div class="weather-item tyre-rec"><span class="label">TYRE REC:</span> <span id="tyre-val">SOFT (C5)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="terminal-module history-module">
+                        <div class="module-header">SYSTEM_LOGS</div>
+                        <div id="terminal-history" class="terminal-text"></div>
+                    </div>
+
+                </div>
+
+                <div class="terminal-grid-bottom">
+                    
+                    <div class="terminal-module telemetry-chart-module">
+                        <div class="module-header">NETWORK_INGESTION_WAVEFORM</div>
+                        <div class="chart-container">
+                            <svg id="telemetry-svg" viewBox="0 0 400 100" preserveAspectRatio="none">
+                                <path id="waveform-path" d="M 0 50" fill="none" stroke="var(--f1-red)" stroke-width="2" />
+                            </svg>
+                            <div class="grid-overlay"></div>
+                        </div>
+                        <div class="chart-footer">
+                            <span id="chart-status">INGESTING LIVE DATA...</span>
+                            <span>400ms WINDOW</span>
+                        </div>
+                    </div>
+
+                    <div class="terminal-module input-module flex-col">
+                        <div class="module-header">COMMAND_INPUT_CONSOLE</div>
+                        <div class="terminal-text input-line-container">
+                            <div class="input-line">
+                                <span class="prompt">></span>
+                                <input type="text" id="terminal-input" placeholder="TYPE 'BENFORD SCAN' OR 'STEALTH ON'..." spellcheck="false" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

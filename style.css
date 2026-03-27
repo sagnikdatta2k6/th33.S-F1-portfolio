@@ -1,0 +1,149 @@
+/* --- CORE HUD PALETTE --- */
+:root {
+    --f1-red: #e10600;
+    --glass: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.12);
+    --text: #ffffff;
+    --f1-green: #00ff00;
+}
+
+* { scroll-behavior: smooth; box-sizing: border-box; }
+
+body { 
+    margin: 0; 
+    background: #000; 
+    color: var(--text); 
+    font-family: 'Orbitron', sans-serif; 
+    overflow-x: hidden; 
+    transition: background 0.5s ease, filter 0.8s ease;
+}
+
+/* --- THEME FIX: STEALTH MODE & Night Race Scenario --- */
+body.stealth-active { 
+    filter: brightness(0.4) grayscale(0.9) contrast(1.2); 
+    transition: filter 1s ease;
+}
+body.stealth-active .background-3d-container { opacity: 0.1; }
+body.stealth-active .red-glow, body.stealth-active #waveform-path { 
+    filter: drop-shadow(0 0 2px #444); color: #666; stroke: #444; 
+}
+
+/* --- RESPONSIVE OVERALL LAYOUT --- */
+.hud-body main { padding-top: 100px; }
+
+/* --- SYSTEM METRICS BAR (Session Clock) --- */
+.system-status-bar {
+    position: fixed; top: 15px; right: 25px; padding: 10px 20px;
+    z-index: 2000; display: flex; gap: 20px; font-size: 0.7rem;
+    border: 1px solid var(--border); border-radius: 6px;
+}
+.status-item .label { opacity: 0.5; margin-right: 8px; }
+.green-glow { color: var(--f1-green); text-shadow: 0 0 8px rgba(0, 255, 0, 0.6); }
+
+/* --- BIOS ENGINEER LOADER --- */
+#bios-loader { 
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    background: #000; color: var(--f1-red); font-family: 'Courier New', monospace; 
+    padding: 50px; z-index: 9999; display: flex; flex-direction: column; 
+    text-shadow: 0 0 5px rgba(225, 6, 0, 0.7); transition: opacity 0.8s ease-out;
+}
+.bios-text { font-size: 1.1rem; line-height: 1.6; }
+.loader-finished { opacity: 0; pointer-events: none; }
+
+/* --- 3D CAR BACKGROUND --- */
+.background-3d-container { 
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    z-index: -1; opacity: 0.45; filter: brightness(0.9) contrast(1.1); 
+    pointer-events: none; transition: opacity 1s ease;
+}
+model-viewer { width: 100%; height: 100%; }
+
+/* --- GEOSPATIAL MAP --- */
+.map-container {
+    height: 250px; position: relative; padding: 10px; display: flex;
+    justify-content: center; background: radial-gradient(circle, rgba(225, 6, 0, 0.05) 0%, transparent 70%);
+}
+#india-node-map { height: 100%; filter: drop-shadow(0 0 5px rgba(225, 6, 0, 0.2)); }
+.node-point { transition: fill 0.5s ease, filter 0.5s ease; fill: #444; }
+.node-active { fill: var(--f1-red) !important; r: 4; filter: drop-shadow(0 0 5px var(--f1-red)); }
+#active-scanner { transition: cx 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), cy 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.map-coordinates { position: absolute; bottom: 10px; left: 10px; font-size: 0.5rem; font-family: 'Courier New', monospace; background: rgba(0,0,0,0.6); padding: 5px; border: 1px solid var(--border); }
+
+/* --- NETWORK INGSETION WAVEFORM --- */
+.telemetry-chart-module { min-height: 150px; display: flex; flex-direction: column; }
+.chart-container { 
+    height: 100px; background: rgba(0, 0, 0, 0.4); 
+    position: relative; overflow: hidden; border-top: 1px solid var(--border);
+    margin: 10px 0; 
+}
+#telemetry-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 5px var(--f1-red)); }
+#waveform-path { transition: d 0.1s linear; }
+
+/* --- SPLIT TERMINAL LAYOUT (Fixes Input Placement) --- */
+.wide-frame { width: 95vw; max-width: 1600px; padding: 30px; margin: 0 auto; }
+.terminal-grid-top { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 20px; margin-bottom: 20px; }
+.terminal-grid-bottom { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; }
+
+/* --- NEW: STRETCHED CONSOLE INPUT --- */
+.flex-col { display: flex; flex-direction: column; }
+.input-line-container { flex-grow: 1; display: flex; align-items: center; background: rgba(0, 0, 0, 0.3); padding: 0 15px; }
+.input-line { display: flex; width: 100%; align-items: center; }
+#terminal-input { flex-grow: 1; font-size: 1rem; }
+
+/* CORE TELEMETRY STREAM STYLING */
+.core-stream { border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 10px; }
+.core-stream span:not(.label) { font-size: 0.8rem !important; color: #00ff00 !important; text-shadow: 0 0 5px rgba(0, 255, 0, 0.3); }
+
+/* SENSOR CONTENT & PULSE */
+.weather-content { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 25px; font-family: 'Courier New', monospace; color: var(--f1-red); transition: opacity 0.3s ease; }
+@keyframes pulse-red { 0% { filter: brightness(1); } 50% { filter: brightness(1.8); } 100% { filter: brightness(1); } }
+.pulse-active { animation: pulse-red 0.4s ease-out; }
+.weather-item .label { opacity: 0.6; font-size: 0.7rem; display: block; margin-bottom: 5px; }
+.weather-item span:not(.label) { font-size: 1.4rem; font-weight: bold; letter-spacing: 1px; }
+#road-temp-val { color: #ff4d4d; text-shadow: 0 0 8px rgba(255, 77, 77, 0.4); }
+.gps-item, .tyre-rec { grid-column: span 2; border-top: 1px solid var(--border); padding-top: 15px; }
+
+/* TERMINAL COMPONENTS */
+.terminal-module { border: 1px solid var(--border); border-radius: 8px; background: rgba(0, 0, 0, 0.5); overflow: hidden; backdrop-filter: blur(5px); }
+.module-header { background: rgba(255, 255, 255, 0.05); padding: 5px 15px; font-size: 0.6rem; color: #888; letter-spacing: 2px; border-bottom: 1px solid var(--border); }
+#terminal-history { height: 250px; overflow-y: auto; padding: 15px; font-size: 0.85rem; }
+.terminal-text, #terminal-input, .prompt { color: var(--f1-red) !important; font-family: 'Courier New', monospace; }
+#terminal-input { background: transparent; border: none; width: 100%; outline: none; text-transform: uppercase; padding: 10px 15px; }
+
+/* UI ELEMENTS */
+.hud-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; position: fixed; top: 0; width: 100%; z-index: 1000; transition: background 0.3s ease; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+.hud-btn-sm { text-decoration: none; color: white; background: var(--glass); border: 1px solid var(--border); padding: 8px 18px; font-size: 0.75rem; margin-left: 10px; transition: 0.3s; backdrop-filter: blur(10px); }
+.hud-btn-sm:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--f1-red); }
+.full-view { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 120px 5% 50px; position: relative; }
+
+/* DRIVER GRID */
+.grid-layout { display: flex; flex-direction: row; gap: 30px; width: 100%; }
+.driver-card { flex: 1; padding: 40px; border-bottom: 5px solid var(--f1-red); transition: 0.3s; }
+.driver-card:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
+
+/* TECH PILLS */
+.stack-box { padding: 40px; text-align: center; }
+.pill { padding: 10px 25px; border: 1px solid var(--f1-red); margin: 5px; display: inline-block; font-size: 0.8rem; border-radius: 4px; transition: 0.3s; }
+.pill:hover { background: var(--f1-red); color: #000; box-shadow: 0 0 10px var(--f1-red); }
+
+/* TYPOGRAPHY */
+.f1-title { font-size: clamp(3rem, 13vw, 11rem); font-weight: 900; background: linear-gradient(#fff 50%, #444 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 5vh; }
+.glass { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 12px; }
+.scanline-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%); background-size: 100% 4px; z-index: 5; pointer-events: none; transition: opacity 0.5s ease; }
+
+/* --- MOBILE RESPONSIVENESS OVERRIDES --- */
+@media (max-width: 768px) {
+    .f1-title { font-size: 3.5rem; }
+    .hud-nav { padding: 15px; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.8); }
+    .nav-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+    .hud-btn-sm { margin: 0; padding: 6px 12px; font-size: 0.6rem; }
+    .grid-layout { flex-direction: column; gap: 15px; }
+    /* Collapse both top and bottom rows into a single column layout on mobile */
+    .terminal-grid-top, .terminal-grid-bottom { grid-template-columns: 1fr; gap: 15px; }
+    .wide-frame { padding: 15px; width: 98vw; }
+    #terminal-history { height: 200px; font-size: 0.75rem; }
+    .weather-content { padding: 15px; gap: 10px; }
+    .weather-item span:not(.label) { font-size: 1.1rem; }
+    .system-status-bar { top: auto; bottom: 20px; right: 20px; left: 20px; justify-content: space-around; background: rgba(0,0,0,0.9); }
+    .full-view { padding-top: 150px; }
+}
