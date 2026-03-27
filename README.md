@@ -40,6 +40,6 @@ The built-in command console accepts the following inputs:
 * `STATUS CHECK` - Output live diagnostic variables (Battery, Heat Lock, Tyre Wear).
 
 ## 👥 The Grid (Team)
-* **Sagnik Datta** - Lead Architect
+* **[Sagnik Datta](https://github.com/sagnikdatta2k6)** - Lead Architect
 * **[Swati Saumya](https://github.com/swatisaumya)** - UX Specialist
 * **Shloak Sinha** - Data Systems
